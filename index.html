@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>そのガード、見切った。｜学習版</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- defer を付けると、HTMLを読み終わってからJavaScriptが動く -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <p class="eyebrow">GUARD BREAK / LEARNING EDITION</p>
+      <h1>そのガード、<span>見切った。</span></h1>
+      <p>速いジャブ・ボディー・顔ガード。３つの技で、じゃんけん勝負。</p>
+    </header>
+
+    <section class="opponent-setting" aria-label="対戦相手の設定">
+      <label for="opponent-select">対戦相手</label>
+      <select id="opponent-select">
+        <option value="ren">鉄壁のレン</option>
+        <option value="shin">ボディーのシン</option>
+        <option value="gou">速射のゴウ</option>
+      </select>
+      <p id="opponent-hint"></p>
+    </section>
+
+    <section class="game" aria-label="ボクシングゲーム">
+      <div class="scoreboard">
+        <div class="score">
+          <span class="corner blue">YOU</span>
+          <p>あなた <strong id="player-hp">5</strong><small> / 5</small></p>
+          <progress id="player-hp-bar" value="5" max="5" aria-label="あなたのHP"></progress>
+        </div>
+        <div class="round"><span>TURN</span><strong id="turn">1</strong></div>
+        <div class="score opponent-score">
+          <span class="corner red">CPU</span>
+          <p>相手 <strong id="opponent-hp">5</strong><small> / 5</small></p>
+          <progress id="opponent-hp-bar" value="5" max="5" aria-label="相手のHP"></progress>
+        </div>
+      </div>
+
+      <div class="ring">
+        <span class="ring-label">READ THE FIGHT.</span>
+        <div class="rope rope-one" aria-hidden="true"></div>
+        <div class="rope rope-two" aria-hidden="true"></div>
+        <div class="rope rope-three" aria-hidden="true"></div>
+        <div id="boxer" class="boxer idle" role="img" aria-label="対戦相手"></div>
+        <div id="hands" class="hands" aria-hidden="true">
+          <img class="glove left-glove" src="assets/player-glove.svg" alt="">
+          <img class="glove right-glove" src="assets/player-glove.svg" alt="">
+        </div>
+        <strong id="effect" class="effect" aria-hidden="true"></strong>
+      </div>
+
+      <div class="controls">
+        <p id="turn-label" class="eyebrow">LET'S GET READY</p>
+        <h2 id="instruction">相手のクセを見て、試合をはじめよう。</h2>
+        <p id="moves" class="moves">あなた：— ／ 相手：—</p>
+        <p id="result" class="result" role="status">勝つと相手に１ダメージ。お互いのHPは５です。</p>
+
+        <!-- ボタンをHTMLに書いておき、JavaScriptで表示・非表示を切り替える -->
+        <div id="move-buttons" class="button-row">
+          <button id="jab" type="button"><span>01 / QUICK JAB</span><strong>速いジャブ</strong><small>ボディーに勝つ<br>顔ガードに負ける</small></button>
+          <button id="body" type="button"><span>02 / BODY</span><strong>ボディー</strong><small>顔ガードに勝つ<br>速いジャブに負ける</small></button>
+          <button id="guard" class="guard-button" type="button"><span>03 / FACE GUARD</span><strong>顔ガード</strong><small>速いジャブに勝つ<br>ボディーに負ける</small></button>
+        </div>
+
+        <button id="start" class="main-button" type="button">試合をはじめる →</button>
+        <button id="next" class="main-button" type="button">次の勝負へ →</button>
+        <button id="reset" class="reset-button" type="button">最初に戻す</button>
+      </div>
+    </section>
+
+    <section class="rules" aria-labelledby="rules-title">
+      <p class="eyebrow">KNOW YOUR MATCHUPS</p>
+      <h2 id="rules-title">速さで勝つ。守りを崩す。防いで反撃。</h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">自分 ＼ 相手</th><th scope="col">速いジャブ</th><th scope="col">ボディー</th><th scope="col">顔ガード</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">速いジャブ</th><td>アイコ</td><td class="hit">勝ち</td><td>負け</td></tr>
+            <tr><th scope="row">ボディー</th><td>負け</td><td>アイコ</td><td class="hit">勝ち</td></tr>
+            <tr><th scope="row">顔ガード</th><td class="hit">勝ち</td><td>負け</td><td>アイコ</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="rule-note">速いジャブはボディーより先に当たり、顔ガードには防がれる設定です。顔ガードが勝つときは、防いで反撃して１ダメージ。同じ技はアイコでHPは変わりません。</p>
+    </section>
+
+    <footer>HTML ＋ CSS ＋ JavaScript ／ 画像・グローブは同梱しています。</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,140 @@
+/* 1. ページ全体の見た目 */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f3f0e7;
+  color: #252621;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+.container { width: 90%; max-width: 860px; margin: 0 auto; }
+.page-header { padding: 34px 0 26px; border-bottom: 1px solid #252621; }
+.eyebrow { font-family: monospace; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+h1 { margin: 14px 0; font-size: 40px; letter-spacing: -2px; }
+h1 span { color: #b43d2d; }
+.page-header > p:last-child { font-size: 13px; color: #6c7063; line-height: 1.8; }
+button, select { font: inherit; cursor: pointer; }
+button:focus-visible, select:focus-visible { outline: 3px solid #405e70; outline-offset: 3px; }
+button:disabled, select:disabled { cursor: default; }
+.opponent-setting { padding: 20px 0; }
+.opponent-setting label { font-size: 12px; font-weight: bold; margin-right: 10px; }
+select { border: 1px solid #bfc2b3; background: #fbfaf5; padding: 8px; font-size: 12px; }
+#opponent-hint { font-size: 12px; color: #6c7063; margin: 12px 0 0; line-height: 1.8; }
+.game { border: 1px solid #252621; background: #fbfaf5; }
+
+/* 2. HPとラウンド */
+.scoreboard { display: flex; align-items: center; padding: 20px 24px; gap: 20px; }
+.score { width: 40%; }
+.corner { font-family: monospace; font-size: 10px; font-weight: bold; }
+.blue { color: #405e70; }
+.red { color: #b43d2d; }
+.score p { margin: 5px 0 8px; font-size: 13px; }
+.score strong { font-size: 25px; margin-left: 8px; }
+.score small { color: #999b8b; font-size: 10px; }
+.opponent-score { text-align: right; }
+progress { display: block; width: 100%; height: 9px; border: 0; background: #e2e2d6; accent-color: #405e70; }
+progress::-webkit-progress-bar { background: #e2e2d6; }
+progress::-webkit-progress-value { background: #405e70; }
+.opponent-score progress { accent-color: #b43d2d; }
+.opponent-score progress::-webkit-progress-value { background: #b43d2d; }
+.round { width: 20%; text-align: center; }
+.round span { display: block; font-family: monospace; font-size: 9px; letter-spacing: 1px; color: #8b907e; }
+.round strong { display: block; font-family: monospace; font-size: 30px; margin-top: 3px; }
+
+/* 3. リングと画像。１枚の画像の、表示する位置だけを変える */
+.ring { position: relative; height: 345px; overflow: hidden; background: #303a32; }
+.ring-label { position: absolute; top: 30px; left: 20px; font-size: 28px; font-weight: 900; color: #5e6855; }
+.rope { position: absolute; width: 100%; height: 7px; transform: rotate(-3deg); }
+.rope-one { top: 165px; background: #7c4236; }
+.rope-two { top: 210px; background: #b4b19d; }
+.rope-three { top: 255px; background: #465e68; }
+.boxer {
+  position: absolute;
+  left: 50%; bottom: -2px;
+  width: 330px; height: 330px; margin-left: -165px;
+  background-image: url("assets/boxer-sprites.png");
+  background-size: 300% 200%;
+}
+.boxer.idle { background-position: 0 0; }
+.boxer.block { background-position: 100% 0; }
+.boxer.hit { background-position: 50% 100%; }
+.boxer.ko { background-position: 100% 100%; }
+.boxer.jab { background-position: 0 0; animation: opponent-punch 0.3s; }
+.boxer.body { background-position: 0 100%; animation: opponent-body 0.5s; }
+.effect { position: absolute; left: 0; right: 0; top: 90px; text-align: center; font-size: 36px; color: #fff0ca; text-shadow: 2px 3px #8b3028; }
+
+/* 4. 自分のグローブと、それぞれの動き */
+.hands { position: absolute; inset: 0; transition: transform 0.2s; }
+.glove { position: absolute; width: 140px; height: 185px; bottom: -75px; transition: transform 0.2s; }
+.left-glove { left: calc(50% - 195px); transform: rotate(-15deg); }
+.right-glove { right: calc(50% - 195px); transform: scaleX(-1) rotate(-15deg); }
+.hands.punch-jab .left-glove { animation: jab 0.45s; }
+.hands.punch-body .left-glove { animation: body-punch 0.45s; }
+.hands.block .left-glove { transform: translate(80px, -85px); }
+.hands.block .right-glove { transform: translate(-80px, -85px) scaleX(-1); }
+@keyframes jab { 50% { transform: translate(100px, -150px) rotate(10deg); } }
+@keyframes body-punch { 50% { transform: translate(100px, -60px) rotate(35deg); } }
+@keyframes opponent-punch { 50% { transform: scale(1.12); } }
+@keyframes opponent-body { 50% { transform: translateY(12px) scale(1.08); } }
+
+/* 5. 操作ボタンと結果 */
+.controls { padding: 22px 24px; }
+.controls .eyebrow { color: #b43d2d; margin: 0; font-size: 10px; }
+h2 { font-size: 21px; margin: 10px 0; letter-spacing: -0.5px; }
+.result { font-size: 13px; line-height: 1.9; color: #6c7063; min-height: 48px; margin: 14px 0; }
+.moves { font-size: 12px; font-weight: bold; color: #405e70; margin: 15px 0 0; line-height: 1.8; }
+.button-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.button-row button { padding: 17px 12px; border: 1px solid #c8cdbd; text-align: left; background: #fbfaf5; }
+.button-row button:hover { background: #f3e5d8; border-color: #b43d2d; }
+.button-row span { display: block; font-family: monospace; font-size: 9px; color: #b43d2d; }
+.button-row strong { display: block; margin: 13px 0 10px; font-size: 16px; }
+.button-row small { display: block; color: #7f8772; font-size: 10px; line-height: 1.9; }
+.button-row .guard-button:hover { border-color: #405e70; background: #e6edf0; }
+.guard-button span { color: #405e70; }
+.main-button { display: block; width: 100%; background: #b43d2d; color: #fff7e9; padding: 15px; border: 0; font-size: 14px; text-align: left; font-weight: bold; }
+.main-button:hover { background: #8e2e23; }
+.reset-button { background: none; border: 0; border-bottom: 1px solid #aeb6a0; padding: 5px 0; color: #7f8772; font-size: 11px; margin-top: 18px; }
+/* 開始前は、３択・次へボタンを隠しておく */
+#move-buttons, #next { display: none; }
+
+/* 6. 相性表とスマートフォン表示 */
+.rules { padding: 28px 0; }
+.rules > .eyebrow { color: #838d75; font-size: 10px; }
+.table-scroll { overflow-x: auto; margin-top: 20px; }
+table { width: 100%; border-collapse: collapse; text-align: center; font-size: 12px; }
+th, td { padding: 13px 9px; border: 1px solid #cbd0be; white-space: nowrap; }
+thead { background: #e6e8dc; }
+.hit { color: #b43d2d; font-family: monospace; font-weight: bold; }
+.rule-note { color: #8e9781; font-size: 10px; line-height: 1.8; margin: 13px 0 0; }
+footer { border-top: 1px solid #252621; padding: 19px 0; color: #8e9781; font-size: 10px; }
+@media (max-width: 520px) {
+  .container { width: 93%; }
+  .page-header { padding: 24px 0 17px; }
+  h1 { font-size: 29px; }
+  .eyebrow { font-size: 9px; }
+  .page-header > p:last-child { font-size: 11px; }
+  #opponent-hint { font-size: 10px; }
+  .scoreboard { padding: 15px; gap: 14px; }
+  .score strong { font-size: 23px; }
+  .ring { height: 300px; }
+  .boxer { width: 300px; height: 300px; margin-left: -150px; }
+  .ring-label { font-size: 19px; left: 12px; }
+  .controls { padding: 18px 12px; }
+  h2 { font-size: 17px; }
+  .result { font-size: 11px; min-height: 43px; }
+  .moves { font-size: 10px; }
+  .button-row { gap: 6px; }
+  .button-row button { padding: 13px 7px; }
+  .button-row span { font-size: 7px; }
+  .button-row strong { font-size: 12px; margin: 11px 0 8px; }
+  .button-row small { font-size: 8px; }
+  .glove { width: 120px; height: 160px; bottom: -70px; }
+  .left-glove { left: calc(50% - 170px); }
+  .right-glove { right: calc(50% - 170px); }
+  .hands.block .left-glove { transform: translate(65px, -80px); }
+  .hands.block .right-glove { transform: translate(-65px, -80px) scaleX(-1); }
+  table { font-size: 10px; }
+  th, td { padding: 11px 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
